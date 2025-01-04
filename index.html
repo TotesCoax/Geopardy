@@ -16,12 +16,11 @@
                 <input id="fileInput" type="file">
             </div>
             <div id="playerNameSetup">
-                <label for="playerIinput1">Player 1 Name</label>
-                <input type="text" id="playerIinput1">
-                <label for="playerIinput2">Player 2 Name</label>
-                <input type="text" id="playerIinput2">
-                <label for="playerIinput3">Player 3 Name</label>
-                <input type="text" id="playerIinput3">
+                <label for="numPlayers">Number of Players</label>
+                <input id="numPlayers" type="number" min="1" max="8" step="1" value="1">
+            </div>
+            <div id="playerNameChange">
+
             </div>
         </div>
     </div>
@@ -166,18 +165,16 @@
         </div>
     </div>
     <div id="playersDisplay">
-        <div class="playerBoard" id="player1" data-playerSeat="1">
-            <p id="playerName1" data-pType="player-name" class="player-name">NAME</p>
-            <input type="number" id="playerScore1" data-pType="player-score" class="player-score" step="100" value="0">
-        </div>
-        <div class="playerBoard" id="player2" data-playerSeat="2">
-            <p id="playerName2" data-pType="player-name" class="player-name">NAME</p>
-            <input type="number"p id="playerScore2" data-pType="player-score" class="player-score" step="100" value="0">
-        </div>
-        <div class="playerBoard" id="player3" data-playerSeat="3">
-            <p id="playerName3" data-pType="player-name" class="player-name">NAME</p>
-            <input type="number" id="playerScore3" data-pType="player-score" class="player-score" step="100" value="0">
-        </div>
     </div>
+    <template id="playerTileTemplate">
+        <div class="playerBoard" data-seat="0">
+            <p class="player-name">NAME</p>
+            <input type="number" class="player-score" step="100" value="0">
+        </div>
+    </template>
+    <template id="playerNameUpdateTemplate">
+        <label for=""></label>
+        <input type="text" id="" data-playerNameInput = "yes">
+    </template>
 </body>
 </html>

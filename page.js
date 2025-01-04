@@ -3,8 +3,25 @@ const fileInput = document.querySelector('#fileInput')
 const admin = document.querySelector('#admin')
 const board = document.querySelector('#board')
 const fileSetup = document.querySelector('#fileSetup')
+
 const playerNameSetup = document.querySelector('#playerNameSetup')
+const playerNameChange = document.querySelector('#playerNameChange')
+const numberOfPlayersInput = playerNameSetup.querySelector('input')
 const playersDisplay = document.querySelector('#playersDisplay')
+
+//Clone template
+function cloneTemplate(templateID){
+    let template = document.getElementById(templateID),
+        clone = template.content.cloneNode(true)
+    return clone
+}
+
+//Remove Children
+function clearChildNodes(element){
+    while (element.firstChild) {
+        element.removeChild(element.lastChild)
+    }
+}
 
 //Admin section toggle
 document.querySelector('#titleBanner').addEventListener('click', (e) => {
@@ -12,17 +29,48 @@ document.querySelector('#titleBanner').addEventListener('click', (e) => {
 })
 
 //Player Updates
-playerNameSetup.querySelectorAll('input').forEach(input => {
-    input.addEventListener('input', playerNameUpdate)
+//Listener
+numberOfPlayersInput.addEventListener('change', (e)=>{
+    let numPlayers = numberOfPlayersInput.value
+    clearChildNodes(playerNameChange)
+    clearChildNodes(playersDisplay)
+    renderNumberofPlayers(numPlayers)
+    addListentersToPlayerUpdateInput()
 })
 
-function playerNameUpdate(playerInputEvent){
-    let playersInputArray = Array.from(playerNameSetup.querySelectorAll('input')),
-        playersDisplayArray = Array.from(playersDisplay.querySelectorAll('p[data-pType="player-name"]')),
-        inputPosition = playersInputArray.indexOf(playerInputEvent.target)
+//Adjust number of players
+function renderNumberofPlayers(numberOfPlayers){
+    for (let seat = 0; seat < numberOfPlayers; seat++) {
+        let playerNumber = seat+1
+            playerTile = cloneTemplate('playerTileTemplate'),
+            playerNameUpdate = cloneTemplate('playerNameUpdateTemplate')
 
-    playersDisplayArray[inputPosition].innerText = playerInputEvent.target.value
+        playerTile.querySelector('.playerBoard').dataset.seat = playerNumber
+        playerNameUpdate.querySelector('input').id = playerNumber
+        playerNameUpdate.querySelector('label').setAttribute("for", playerNumber)
+        playerNameUpdate.querySelector('label').innerText = `Player ${playerNumber}`
+
+        playerNameChange.appendChild(playerNameUpdate)
+        playersDisplay.appendChild(playerTile)
+    }
 }
+
+//Update Player Names
+function addListentersToPlayerUpdateInput(){
+    let playerInputs = document.querySelectorAll('input[data-playerNameInput="yes"]')
+
+    playerInputs.forEach(input => input.addEventListener('input', updateDisplayName))
+}
+
+//Update Name on Change
+function updateDisplayName(event){
+    let seatNumber = event.target.id,
+        displayName = document.querySelector(`div[data-seat="${seatNumber}"]`)
+
+
+    displayName.querySelector('.player-name').innerText = event.target.value.toUpperCase()
+}
+
 
 //Tile growing/shrinking
 board.querySelectorAll(".tile").forEach(tile => {
@@ -88,35 +136,4 @@ function renderBoard(data){
             tiles[promptIndex].dataset.value = data[categoryIndex][promptIndex].get('Value')
         }
     }
-}
-
-//Game stuff
-function getTileCoordinates(element){
-    let categories = Array.from(document.querySelectorAll('.category')),
-        tile = element.parentNode,
-        category = tile.parentNode,
-        tiles = Array.from(category.querySelectorAll('.tile')),
-        categoryIndex = categories.indexOf(category),
-        tileIndex = tiles.indexOf(tile)
-    
-    console.log([categoryIndex, tileIndex])
-    return [categoryIndex, tileIndex]
-}
-
-function getCurrentTileCoords(){
-    let currentTile = document.querySelector('.displaying')
-
-    return getTileCoordinates(currentTile)
-}
-function getCurrentTile(){
-    let coords = getCurrentTileCoords(),
-        boardTile = boardState[coords[0]][coords[1]]
-
-    console.log(boardTile)
-    return boardTile
-}
-
-function getCurrentValue(){
-    console.log(getCurrentTile().get('Value'))
-    return getCurrentTile().get('Value')
 }
