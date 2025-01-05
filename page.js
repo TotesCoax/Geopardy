@@ -28,8 +28,63 @@ document.querySelector('#titleBanner').addEventListener('click', (e) => {
     admin.querySelector('#setup').classList.toggle('hidden')
 })
 
+//Score Controller
+//Add Controller Listeners
+document.addEventListener('keypress', scoreKeypressListener)
+
+
+
+//The Control Listener
+function scoreKeypressListener(e){
+    switch (e.code) {
+        case "Digit1":
+                changeScore(1, e.shiftKey)
+            break;
+        case "Digit2":
+                changeScore(2, e.shiftKey)
+            break;
+        case "Digit3":
+                changeScore(3, e.shiftKey)
+            break;
+        case "Digit4":
+                changeScore(4, e.shiftKey)
+            break;
+        case "Digit5":
+                changeScore(5, e.shiftKey)
+            break;
+        case "Digit6":
+                changeScore(6, e.shiftKey)
+            break;
+        case "Digit7":
+                changeScore(7, e.shiftKey)
+            break;
+        case "Digit8":
+                changeScore(8, e.shiftKey)
+            break;   
+        default:
+            console.log(e.code, e.shiftKey)
+            break;
+    }
+}
+
+//Change Score
+function changeScore(seat, shiftPressed){
+    try {
+        let seatDiv = document.querySelector(`div[data-seat="${seat}"]`),
+            currentInputValue = Number(seatDiv.querySelector('input').value)
+        console.log(seat, shiftPressed, seatDiv, currentInputValue)
+        if(shiftPressed){
+            seatDiv.querySelector('input').value = currentInputValue - 100
+        } else {
+            seatDiv.querySelector('input').value = currentInputValue + 100
+        }
+    } catch (error) {
+        console.log('Seat not found')
+    }
+}
+
 //Player Updates
-//Listener
+//Listener assignment
 numberOfPlayersInput.addEventListener('change', (e)=>{
     let numPlayers = numberOfPlayersInput.value
     clearChildNodes(playerNameChange)
