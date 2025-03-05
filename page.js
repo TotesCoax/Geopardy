@@ -148,10 +148,11 @@ fileInput.addEventListener('change', () => {
 
     Reader.addEventListener('load', () => {
         const csv = Reader.result
-
-       const arrayFromCSV =  csv.split('\r\n').map((line) => {
-            return line.split(',')
+        const arrayFromCSV =  csv.split('\r\n').map((line) => {
+            // Split on commas outside of quotes
+            return line.split(/,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)/)
         })
+        console.table(arrayFromCSV)
         boardState = transformCSVArrayIntoCategorizedArrayWithMaps(arrayFromCSV)
         renderBoard(boardState)
     })
@@ -180,13 +181,17 @@ function transformCSVArrayIntoCategorizedArrayWithMaps(data){
     return categorizedArray
 }
 
+function cleanUpQuotes(string){
+    return string.replaceAll("\"\"", ";").replaceAll("\"", "").replaceAll(";", "\"")
+}
+
 function renderBoard(data){
     let categories = document.querySelectorAll('.category')
     for (let categoryIndex = 0; categoryIndex < data.length; categoryIndex++) {
-        categories[categoryIndex].querySelector('.title p').innerText = data[categoryIndex][0].get('Column Title')
+        categories[categoryIndex].querySelector('.title p').innerText = cleanUpQuotes(data[categoryIndex][0].get('Column Title'))
         let tiles = categories[categoryIndex].querySelectorAll('.tile')
         for (let promptIndex = 0; promptIndex < data[categoryIndex].length; promptIndex++) {
-            tiles[promptIndex].querySelector('.question').innerText = data[categoryIndex][promptIndex].get('Question')
+            tiles[promptIndex].querySelector('.question').innerText = cleanUpQuotes(data[categoryIndex][promptIndex].get('Question'))
             tiles[promptIndex].querySelector('.value').innerText = data[categoryIndex][promptIndex].get('Value')
             tiles[promptIndex].dataset.value = data[categoryIndex][promptIndex].get('Value')
         }
