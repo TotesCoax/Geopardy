@@ -12,8 +12,14 @@
     <div id="admin">
         <div id="setup" class="hidden">
             <div id="fileSetup">
-                <label for="fileInput">Please select file to import</label>
+                <label for="fileInput">Please select round file</label>
                 <input id="fileInput" type="file">
+                <button type="button" id="clearAnswerStatus">Clear answered status</button>
+            </div>
+            <div>
+                <label for="finalFileInput">Final Geopardy file</label>
+                <input id="finalFileInput" type="file">
+                <button type="button" id="finalToggleBtn">Toggle Final Geopardy</button>
             </div>
             <div id="playerNameSetup">
                 <label for="numPlayers">Number of Players</label>
@@ -163,6 +169,10 @@
                 <p class="question hidden">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum impedit earum quibusdam soluta ducimus ratione explicabo sapiente necessitatibus, ut pariatur quasi exercitationem harum et vel hic sint error aliquid inventore.</p>
             </div>
         </div>
+    </div>
+    <div id="finalBoard" class="hidden title">
+        <h2>Category Name</h2>
+        <p class="hidden">Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus quam nihil ut, dolore iusto saepe necessitatibus ullam officiis iste velit eveniet quas similique voluptatem aperiam aliquam, asperiores inventore laudantium illo.</p>
     </div>
     <div id="playersDisplay">
     </div>

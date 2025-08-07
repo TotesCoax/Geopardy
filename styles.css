@@ -43,6 +43,14 @@ body {
     grid: repeat(6, 1fr), 1fr;
 }
 
+#finalBoard h2 {
+    font-size: 10rem;
+}
+
+#finalBoard p {
+    font-size: 5rem;
+}
+
 h1 {
     text-align: center;
     margin: 0;
@@ -126,5 +134,5 @@ fieldset {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }

@@ -1,8 +1,17 @@
+//Turn off right-click
+document.addEventListener('contextmenu', (e)=>{
+    e.preventDefault()
+})
+
 // Setting Up Element variables
 const fileInput = document.querySelector('#fileInput')
 const admin = document.querySelector('#admin')
 const board = document.querySelector('#board')
+const finalBoard = document.querySelector('#finalBoard')
 const fileSetup = document.querySelector('#fileSetup')
+const clearAnswerStatus = document.querySelector('#clearAnswerStatus')
+const finalToggleBtn = document.querySelector('#finalToggleBtn')
+const finalFileInput = document.querySelector('#finalFileInput')
 
 const playerNameSetup = document.querySelector('#playerNameSetup')
 const playerNameChange = document.querySelector('#playerNameChange')
@@ -128,7 +137,7 @@ function updateDisplayName(event){
 
 
 //Tile growing/shrinking
-board.querySelectorAll(".tile").forEach(tile => {
+board.querySelectorAll('.tile').forEach(tile => {
     tile.addEventListener('dblclick', () => {
         tile.querySelector('.question').classList.toggle('displaying')
         tile.querySelector('.question').classList.toggle('hidden')
@@ -137,8 +146,45 @@ board.querySelectorAll(".tile").forEach(tile => {
             tile.classList.add('answered')
         })
     })
+    tile.addEventListener('contextmenu', () => {
+        tile.classList.remove('answered')
+    })
 })
 
+// Clear Answered status of all, mostly used for round 2 board refresh.
+clearAnswerStatus.addEventListener('click', ()=>{
+    board.querySelectorAll('.tile').forEach(tile => {
+        tile.classList.remove('answered')
+    })
+})
+
+//Final Jeopardy
+finalToggleBtn.addEventListener('click', () => {
+    board.classList.toggle('hidden')
+    finalBoard.classList.toggle('hidden')
+})
+
+finalBoard.addEventListener('dblclick', () => {
+    finalBoard.querySelector('h2').classList.toggle('hidden')
+    finalBoard.querySelector('p').classList.toggle('hidden')
+})
+
+finalFileInput.addEventListener('change', () => {
+    const Reader = new FileReader()
+
+    Reader.readAsText(finalFileInput.files[0])
+
+    Reader.addEventListener('load', () => {
+        const csv = Reader.result.split('\r\n')
+        renderFinalQuestion(csv)
+    })
+
+})
+
+function renderFinalQuestion(arrayFromFile){
+    finalBoard.querySelector('h2').innerText = cleanUpQuotes(arrayFromFile[0])
+    finalBoard.querySelector('p').innerText = cleanUpQuotes(arrayFromFile[1])
+}
 
 //File Handling
 fileInput.addEventListener('change', () => {
@@ -182,6 +228,7 @@ function transformCSVArrayIntoCategorizedArrayWithMaps(data){
 }
 
 function cleanUpQuotes(string){
+    console.log(string)
     return string.replaceAll("\"\"", ";").replaceAll("\"", "").replaceAll(";", "\"")
 }
 
