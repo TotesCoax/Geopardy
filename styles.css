@@ -1,5 +1,8 @@
 :root {
     --tile-background: rgb(65, 65, 129);
+    /* Hide the scroll bars on all browsers */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 * {
@@ -78,6 +81,7 @@ h1, .title, .tile, #playersDisplay p, .player-score{
 
 .playerBoard {
     background-color: var(--tile-background);
+    height: 110px;
 }
 
 .tile, .title, .flex-center {
@@ -85,7 +89,11 @@ h1, .title, .tile, #playersDisplay p, .player-score{
     align-items: center;
     justify-content: center;
     margin: .5%;
-    min-height: 100px
+    height: 110px
+}
+
+.title {
+    font-size: 2rem;
 }
 
 .tile {
@@ -121,7 +129,8 @@ h1, .title, .tile, #playersDisplay p, .player-score{
 }
 
 .player-name {
-    font-size: 1rem;
+    font-size: 2rem;
+    text-transform: uppercase;
 }
 .player-score {
     font-size: 2rem;
