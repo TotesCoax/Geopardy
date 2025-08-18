@@ -147,7 +147,7 @@ board.querySelectorAll('.tile').forEach(tile => {
         })
     })
     tile.addEventListener('contextmenu', () => {
-        tile.classList.remove('answered')
+        tile.classList.toggle('answered')
     })
 })
 
